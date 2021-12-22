@@ -1,0 +1,27 @@
+html, body {
+  height: 100%;
+  background-color: #2f63ac;
+}
+
+.inner.cover {
+    margin-top:100px;
+    margin-bottom:100px;
+}
+
+.container-fluid .main {
+    background-color: #fff;
+}
+
+.visitor-portal-container {
+    background-color: #fff;
+
+}
+.visitor-portal-container .navbar-inverse {
+  background-color: #1478b2;
+  border-color: #080808;
+}
+
+.visitor-portal-container .navbar-inverse .navbar-brand,
+.visitor-portal-container .navbar-inverse .navbar-nav>li>a {
+    color: #fff;
+}
