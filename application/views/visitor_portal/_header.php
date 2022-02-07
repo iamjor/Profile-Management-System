@@ -48,8 +48,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
+            <div class="text-center">
+                <?php
+                  $img_src = base_url('assets/images/user-icon.png');
+                  if( isset($profile->personal_information->photo) && !empty($profile->personal_information->photo))
+                  {
+                      $img_src = base_url('uploads/' .$profile->personal_information->photo);
+                  }
+                ?>
+                <a href="<?php echo site_url('visitor_portal/profile_picture_edit'); ?>"><img style="width:250px; 
+                    height:auto;" class="img-circle img-thumbnail" src="<?php echo $img_src; ?>" alt="User Profile" ></a>
+            </div>
+            <br>
             <li><a href="<?php echo site_url('visitor_portal/personal_information'); ?>">Personal Information</a></li>
             <li><a href="<?php echo site_url('visitor_portal/programming_skills'); ?>">Programming Skills</a></li>
           </ul>
-        </div>
+        </div>>
         

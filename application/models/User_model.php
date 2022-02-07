@@ -253,5 +253,44 @@ class User_model extends CI_Model {
         return FALSE;
     }
 
+    public function update_post_profile_picture($file_name)
+    {
+        $user_id = (int) $this->input->post('user_id');  
+
+        $data = array(
+            'user_id' => $user_id,
+            'photo' => $file_name,
+        );
+
+        if( $this->is_personal_information_exist($user_id) )
+        {   
+            $this->db->where('user_id', $user_id);
+            $response = $this->db->update('personal_information', $data);
+        
+            if( $response )
+            {
+                return $user_id;
+            }
+            else
+            {
+                return FALSE;
+            }
+        }
+        else
+        {
+            $response = $this->db->insert('personal_information', $data);
+        
+            if( $response )
+            {
+                return $this->db->insert_id();
+            }
+            else
+            {
+                return FALSE;
+            }
+        }
+
+    }
+
 }
 
