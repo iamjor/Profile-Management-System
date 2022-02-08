@@ -52,8 +52,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php
                   $img_src = base_url('assets/images/user-icon.png');
                   if( isset($profile->personal_information->photo) && !empty($profile->personal_information->photo))
-                  {
-                      $img_src = base_url('uploads/' .$profile->personal_information->photo);
+                  {   
+                      if( file_exists('./uploads/' .$profile->personal_information->photo))
+                      {
+                          $img_src = base_url('uploads/' .$profile->personal_information->photo);
+                      }  
                   }
                 ?>
                 <a href="<?php echo site_url('visitor_portal/profile_picture_edit'); ?>"><img style="width:250px; 

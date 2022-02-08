@@ -257,6 +257,8 @@ class User_model extends CI_Model {
     {
         $user_id = (int) $this->input->post('user_id');  
 
+        $this->delete_actual_profile_picture($user_id);
+        
         $data = array(
             'user_id' => $user_id,
             'photo' => $file_name,
@@ -290,6 +292,23 @@ class User_model extends CI_Model {
             }
         }
 
+    }
+
+    public function delete_actual_profile_picture($id)
+    {
+        $data = $this->get_personal_information($id);
+
+        if( isset($data->photo) && !empty($data->photo) )
+        {
+            $file_name = './uploads/' .$data->photo;
+            
+            if( file_exists($file_name) )
+            {
+                return unlink($file_name);
+            }  
+        }
+
+        return TRUE;
     }
 
 }
