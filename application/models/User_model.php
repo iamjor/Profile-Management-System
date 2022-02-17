@@ -359,6 +359,21 @@ class User_model extends CI_Model {
         return $result;
     }
 
+    public function get_all_deactivated_users() 
+    {
+        $this->db->where('status', 'deactivated');
+
+        $this->db->group_start();
+            $this->db->where('role', USER_ROLE_ADMIN);
+            $this->db->or_where('role', USER_ROLE_MANAGER);
+        $this->db->group_end();
+
+        $query = $this->db->get('users');
+        $result = $query->result();
+
+        return $result;
+    }
+
     public function get_user($id) 
     {
         $this->db->where('user_id', $id);
@@ -398,6 +413,60 @@ class User_model extends CI_Model {
         {
             return FALSE;
         }
+    }
+
+    public function deactivate_user($id)
+    {   
+        
+        $data = array(
+            'status' => 'deactivated'
+        );
+
+        $this->db->where('user_id', $id);
+        $response = $this->db->update('users', $data);
+
+        if( $response )
+        {
+            return $id;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+    public function reactivate_user($id)
+    {   
+        
+        $data = array(
+            'status' => 'active'
+        );
+
+        $this->db->where('user_id', $id);
+        $response = $this->db->update('users', $data);
+
+        if( $response )
+        {
+            return $id;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
+    public function is_user_exist($id) 
+    {
+        $this->db->where('user_id', $id);
+        $query = $this->db->get('users');
+        $row = $query->row();
+        
+        if( $row )
+        {
+            return TRUE;
+        }
+        
+        return FALSE;
     }
 }
 

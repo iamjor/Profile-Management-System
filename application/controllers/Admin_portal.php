@@ -53,6 +53,9 @@ class Admin_portal extends CI_Controller {
 
   public function users_list_deactivated()
 	{
+		$this->load->model('user_model');
+		$this->data['result'] = $this->user_model->get_all_deactivated_users();
+
 		$this->load->view('admin_portal/_header', $this->data);
 		$this->load->view('admin_portal/users_list_deactivated');
 		$this->load->view('admin_portal/_footer');
@@ -112,11 +115,16 @@ class Admin_portal extends CI_Controller {
       }
   }
 
-	public function edit_user($id)
+	public function edit_user($id = '')
 	{	
+		$this->load->model('user_model');
+		if( !$this->user_model->is_user_exist($id) )
+		{
+			redirect('admin_portal/users_list');
+		}
+
 		$this->edit_user_submit();
 
-		$this->load->model('user_model');
 		$this->data['user'] = $this->user_model->get_user($id);
 
 		$this->load->view('admin_portal/_header', $this->data);
@@ -152,5 +160,55 @@ class Admin_portal extends CI_Controller {
           }
       }
   }
+
+	public function deactivate_user($id = '')
+	{		
+			$this->load->model('user_model');
+			if( !$this->user_model->is_user_exist($id) )
+			{
+				redirect('admin_portal/users_list');
+			}
+
+			if( $id == $_SESSION['user_id'])
+			{
+				redirect('admin_portal/users_list');
+			}
+
+			$response = $this->user_model->deactivate_user($id);
+
+			if( $response )
+			{
+					$this->session->set_flashdata('submit_success', 'The user was successfully deactivated.');
+			}
+			else
+			{
+					$this->session->set_flashdata('submit_error', 'Sorry! An error occur the user was not deactivated.');
+			}
+
+			redirect('admin_portal/users_list');
+	}
+
+	public function reactivate_user($id = '')
+	{		
+			$this->load->model('user_model');
+			if( !$this->user_model->is_user_exist($id) )
+			{
+				redirect('admin_portal/users_list_deactivated');
+			}
+
+			$this->load->model('user_model');
+			$response = $this->user_model->reactivate_user($id);
+
+			if( $response )
+			{
+					$this->session->set_flashdata('submit_success', 'The user was successfully reactivated.');
+			}
+			else
+			{
+					$this->session->set_flashdata('submit_error', 'Sorry! An error occur the user was not reactivated.');
+			}
+
+			redirect('admin_portal/users_list_deactivated');
+	}
 
 }
