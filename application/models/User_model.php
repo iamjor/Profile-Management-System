@@ -374,6 +374,26 @@ class User_model extends CI_Model {
         return $result;
     }
 
+    public function get_all_active_visitors() 
+    {
+        $this->db->where('status', 'active');
+        $this->db->where('role', USER_ROLE_VISITOR);
+        $query = $this->db->get('users');
+        $result = $query->result();
+
+        return $result;
+    }
+
+    public function get_all_deactivated_visitors() 
+    {
+        $this->db->where('status', 'deactivated');
+        $this->db->where('role', USER_ROLE_VISITOR);
+        $query = $this->db->get('users');
+        $result = $query->result();
+
+        return $result;
+    }
+
     public function get_user($id) 
     {
         $this->db->where('user_id', $id);
@@ -435,6 +455,26 @@ class User_model extends CI_Model {
         }
     }
 
+    public function deactivate_visitor($id)
+    {   
+        
+        $data = array(
+            'status' => 'deactivated'
+        );
+
+        $this->db->where('user_id', $id);
+        $response = $this->db->update('users', $data);
+
+        if( $response )
+        {
+            return $id;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }
+
     public function reactivate_user($id)
     {   
         
@@ -468,5 +508,21 @@ class User_model extends CI_Model {
         
         return FALSE;
     }
+
+    public function is_user_still_active($id) 
+    {
+        $this->db->where('user_id', $id);
+        $this->db->where('status', 'active');
+        $query = $this->db->get('users');
+        $row = $query->row();
+        
+        if( $row )
+        {
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+    
 }
 

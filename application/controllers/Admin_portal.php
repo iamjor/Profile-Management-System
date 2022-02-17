@@ -63,6 +63,9 @@ class Admin_portal extends CI_Controller {
 
   public function visitors_list()
 	{
+		$this->load->model('user_model');
+		$this->data['result'] = $this->user_model->get_all_active_visitors();
+
 		$this->load->view('admin_portal/_header', $this->data);
 		$this->load->view('admin_portal/visitors_list');
 		$this->load->view('admin_portal/_footer');
@@ -70,6 +73,9 @@ class Admin_portal extends CI_Controller {
 
   public function visitors_list_deactivated()
 	{
+		$this->load->model('user_model');
+		$this->data['result'] = $this->user_model->get_all_deactivated_visitors();
+
 		$this->load->view('admin_portal/_header', $this->data);
 		$this->load->view('admin_portal/visitors_list_deactivated');
 		$this->load->view('admin_portal/_footer');
@@ -209,6 +215,51 @@ class Admin_portal extends CI_Controller {
 			}
 
 			redirect('admin_portal/users_list_deactivated');
+	}
+
+	public function deactivate_visitor($id = '')
+	{		
+			$this->load->model('user_model');
+			if( !$this->user_model->is_user_exist($id) )
+			{
+				redirect('admin_portal/visitors_list');
+			}
+
+			$response = $this->user_model->deactivate_visitor($id);
+
+			if( $response )
+			{
+					$this->session->set_flashdata('submit_success', 'The visitor was successfully deactivated.');
+			}
+			else
+			{
+					$this->session->set_flashdata('submit_error', 'Sorry! An error occur the visitor was not deactivated.');
+			}
+
+			redirect('admin_portal/visitors_list');
+	}
+
+	public function reactivate_visitor($id = '')
+	{		
+			$this->load->model('user_model');
+			if( !$this->user_model->is_user_exist($id) )
+			{
+				redirect('admin_portal/visitors_list_deactivated');
+			}
+
+			$this->load->model('user_model');
+			$response = $this->user_model->reactivate_user($id);
+
+			if( $response )
+			{
+					$this->session->set_flashdata('submit_success', 'The visitor was successfully reactivated.');
+			}
+			else
+			{
+					$this->session->set_flashdata('submit_error', 'Sorry! An error occur the visitor was not reactivated.');
+			}
+
+			redirect('admin_portal/visitors_list_deactivated');
 	}
 
 }

@@ -19,6 +19,15 @@
                 </div>
                 <?php
             }
+            elseif($this->session->flashdata('submit_error'))
+            {
+                ?>
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <?php echo $this->session->flashdata('submit_error'); ?>
+                </div>
+                <?php
+            }
         ?>
         <table class="table table-bordered table-striped">
           <thead>
@@ -29,23 +38,32 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Oliver Reyes</td>
-              <td>revilO</td>
-              <td class="text-right">
-                <a href="#" onclick="return confirm('Are you sure you want to deactivate this account?')" class="btn btn-xs btn-danger">Deactivate</a></td>
-            </tr>
-            <tr>
-              <td>Oliver1 Reyes</td>
-              <td>revilO</td>
-              <td class="text-right">
-                <a href="#" onclick="return confirm('Are you sure you want to deactivate this account?')" class="btn btn-xs btn-danger">Deactivate</a></td>
-            <tr>
-              <td>Oliver2 Reyes</td>
-              <td>revilO</td>
-              <td class="text-right">
-                <a href="#" onclick="return confirm('Are you sure you want to deactivate this account?')" class="btn btn-xs btn-danger">Deactivate</a></td>
-            </tr>
+            <?php
+                if( isset($result) && !empty($result))
+                {
+                    foreach ($result as $key => $row) 
+                    {   
+                        $id = $row->user_id;
+                        ?>
+                        <tr>
+                            <td><?php echo create_fullname($row->fname, $row->mname, $row->lname, $row->xname); ?></td>
+                            <td><?php echo $row->username; ?></td>
+                            <td class="text-right">
+
+                                <a href="<?php echo site_url('admin_portal/deactivate_visitor/'.$id); ?>" onclick="return confirm('Are you sure you want to deactivate this account?')" class="btn btn-xs btn-danger">Deactivate</a> 
+
+                            </td>
+                        </tr>
+                        <?php
+                    }
+                }
+                else
+                {
+                    ?>
+                    <tr><td colspan="4" class="text-center">No record found</td></tr>
+                    <?php
+                }
+              ?>
           </tbody
       </table>
     </div>
