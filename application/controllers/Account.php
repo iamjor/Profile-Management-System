@@ -78,7 +78,14 @@ class Account extends CI_Controller {
   
             if( $response )
             {
-                redirect('visitor_portal');
+                if( isset($_SESSION['role']) && ($_SESSION['role'] == USER_ROLE_ADMIN || $_SESSION['role'] == USER_ROLE_MANAGER ))
+                {
+                    redirect('admin_portal');
+                }
+                else
+                {
+                    redirect('visitor_portal');
+                }  
             }
             else
             {

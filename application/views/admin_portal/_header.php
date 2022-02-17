@@ -1,8 +1,11 @@
-<!--
- - Author: Jomar Oliver Reyes
- - Author URL: https://www.jomaroliverreyes.com
--->
+<?php
+/**
+ * Author: Jomar Oliver Reyes
+ * Author URL: https://www.jomaroliverreyes.com
+*/
 
+defined('BASEPATH') OR exit('No direct script access allowed');
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -17,7 +20,7 @@
     <link href="<?php echo base_url('assets/css/style.css'); ?>" rel="stylesheet">
   </head>
 
-  <body class="visitor-portal-container" >
+  <body class="admin-portal-container" >
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container-fluid">
@@ -32,7 +35,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Logout</a></li>
+            <li><a href="<?php echo site_url('account/logout'); ?>">Logout</a></li>
           </ul>
           <form class="navbar-form navbar-right">
             <input type="text" class="form-control" placeholder="Search...">
@@ -45,24 +48,16 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
-            <li><a href="#">Personal Information</a></li>
-            <li><a href="#">Programming Skills</a></li>
+
+            <li class="active"><a href="#"><strong>Users</strong></a></li>
+            <li><a href="<?php echo site_url('admin_portal/users_list'); ?>">Active Users</a></li>
+            <li><a href="<?php echo site_url('admin_portal/users_list_deactivated'); ?>">Deactivated Users</a></li>
+            <li><a href="<?php echo site_url('admin_portal/add_user'); ?>">Add New User</a></li>
+
+            <li class="active"><a href="#"><strong>Visitors Account</strong></a></li>
+            <li><a href="<?php echo site_url('admin_portal/visitors_list'); ?>">Active Accounts</a></li>
+            <li><a href="<?php echo site_url('admin_portal/visitors_list_deactivated'); ?>">Deactivated Accounts</a></li>
+
           </ul>
-        </div>
+        </div>>
         
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-  <h1 class="page-header">Personal Information</h1>
-
-  <div class="row">
-    <div class="col-xs-12">
-        <table class="table table-bordered table-striped">
-            <tbody>
-                <tr><th style="width: 150px;">First Name:</th><td> Zedrick</td></tr>
-                <tr><th>Middle Name:</th><td> Gapas</td></tr>
-                <tr><th>Last Name:</th><td> Reyes</td></tr>
-            </tbody
-        </table>
-    </div>
-  </div>
-</div>
-
