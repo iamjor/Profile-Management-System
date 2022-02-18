@@ -98,12 +98,11 @@ class Account extends CI_Controller {
   }
 
   public function logout()
-	{
-    $this->session->sess_destroy();   
-    $this->load->model('account_model');
-    $response = $this->account_model->logout();
-      
-    redirect('/');
+	{   
+        $this->load->model('account_model');
+        $response = $this->account_model->logout();
+        
+        redirect('/');
 	}
 
 }

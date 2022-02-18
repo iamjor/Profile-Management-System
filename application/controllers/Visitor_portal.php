@@ -19,7 +19,7 @@ class Visitor_portal extends CI_Controller {
 
 			if( $is_logged_in )
 			{
-					if( $_SESSION['role'] != USER_ROLE_VISITOR)
+					if( $_SESSION['role'] != USER_ROLE_VISITOR )
 					{
 						redirect('/');	
 					}
