@@ -15,11 +15,11 @@ class Admin_portal extends CI_Controller {
 			parent::__contruct();
 
 			$this->load->model('account_model');
-			$is_logged_in = $this->account_model->is_user_logged();
+			$is_logged_in = $this->account_model->is_user_logged_in();
 
 			if( $is_logged_in )
 			{
-					if( $_SESSION['role'] == USER_ROLE_ADMIN || $_SESSION['role'] != USER_ROLE_MANAGER )
+					if( $_SESSION['role'] != USER_ROLE_ADMIN && $_SESSION['role'] != USER_ROLE_MANAGER )
 					{
 						redirect('/');	
 					}
@@ -32,6 +32,12 @@ class Admin_portal extends CI_Controller {
 			$this->load->model('user_model');
 			
 			$id = $_SESSION['user_id'];
+			
+			if( !$this->user_model->is_user_still_active($id) )
+			{
+				redirect('account/logout');
+			}
+
 			$this->data['profile'] = $this->user_model->get_profile_information($id);
 
 	}

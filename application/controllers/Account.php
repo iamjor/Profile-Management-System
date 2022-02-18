@@ -98,7 +98,7 @@ class Account extends CI_Controller {
   }
 
   public function logout()
-	{   
+	{ 
         $this->load->model('account_model');
         $response = $this->account_model->logout();
         
